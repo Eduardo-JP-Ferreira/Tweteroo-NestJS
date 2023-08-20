@@ -4,10 +4,6 @@ export class CreateTweetDto {
     @IsString()
     @IsNotEmpty()
     username: string;
-  
-    @IsString()
-    @IsNotEmpty()
-    avatar: string;
 
     @IsString()
     @IsNotEmpty()
