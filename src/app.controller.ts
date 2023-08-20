@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateUserDto } from './dtos/user.dto';
 
@@ -17,11 +17,12 @@ export class AppController {
   }
   
   @Post('/sign-up')
-  createUser(@Body() body: CreateUserDto) {
+  @HttpCode(HttpStatus.OK)
+  createUser(@Body() body: CreateUserDto) {      
     try {
       return this.appService.signUp(body);
     } catch (error) {
-      throw new HttpException("Mano, deu ruim!", HttpStatus.CONFLICT)
+      throw new HttpException("Error!", HttpStatus.BAD_REQUEST)
     }
   }
 }
