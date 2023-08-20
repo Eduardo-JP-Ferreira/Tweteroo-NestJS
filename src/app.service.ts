@@ -18,8 +18,29 @@ export class AppService {
     return "I'm okay!";
   }
 
-  getTweets(){
-    return this.tweets.slice(-15);
+  getTweets(page: number){
+    if(!page){
+      return this.tweets.slice(-15);
+    }
+    else if(page<1){
+      throw new Error('Bad Request');
+    }
+    else{
+      return this.tweets.slice((15*(page - 1)), ((15*(page - 1))+15));
+    } 
+  }
+
+  getTweetsByUsername(page: number, username: string){
+    const tweets = this.tweets.filter((tweet) => tweet.getUsername() === username);
+    if(!page){
+      return tweets.slice(-15);
+    }
+    else if(page<1){
+      throw new Error('Bad Request');
+    }
+    else{
+      return tweets.slice((15*(page - 1)), ((15*(page - 1))+15));
+    } 
   }
 
   getUsers(){

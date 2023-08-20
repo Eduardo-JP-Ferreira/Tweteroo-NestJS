@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Param, Post, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateUserDto } from './dtos/user.dto';
 import { CreateTweetDto } from './dtos/tweet.dto';
@@ -13,10 +13,23 @@ export class AppController {
   }
 
   @Get('/tweets')
-  getTweet(){
-    return this.appService.getTweets();
+  getTweet(@Query('page') page: number | undefined) {   
+    try {
+      return this.appService.getTweets(page);
+    } catch (error) {
+      throw new HttpException("Error!", HttpStatus.BAD_REQUEST)
+    }
   }
   
+  @Get('/tweets/:username')
+  getTweetByUsername(@Query('page') page: number | undefined, @Param('username') username: string) {   
+    try {
+      return this.appService.getTweetsByUsername(page, username);
+    } catch (error) {
+      throw new HttpException("Error!", HttpStatus.BAD_REQUEST)
+    }
+  }
+
   @Get('/users')
   getUsers(){
     return this.appService.getUsers();
